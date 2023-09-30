@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 class Node
   include Comparable
   attr_accessor :data, :left, :right
 
-  def initialize (data = nil, left = nil, right = nil)
+  def initialize(data = nil, left = nil, right = nil)
     @data = data
     @left = left
     @right = right
@@ -10,8 +12,7 @@ class Node
 end
 
 class Tree
-  require 'thread'
-attr_accessor :root
+  attr_accessor :root
 
   def initialize(values)
     @values = values.sort
@@ -20,6 +21,7 @@ attr_accessor :root
 
   def build_tree(values)
     return nil if values.empty?
+
     values = values.sort
 
     count = values.size
@@ -29,28 +31,28 @@ attr_accessor :root
     queue.push([root, [0, mid - 1]])
     queue.push([root, [mid + 1, count - 1]])
 
-    while !queue.empty?
+    until queue.empty?
       current = queue.pop
       parent = current[0]
       left = current[1][0]
       right = current[1][1]
 
-      if left <= right && !parent.nil?
-        mid = (left + right) / 2
-        child = Node.new(values[mid])
+      next unless left <= right && !parent.nil?
 
-        if values[mid] < parent.data
-          parent.left = child
-        else
-          parent.right = child
-        end
+      mid = (left + right) / 2
+      child = Node.new(values[mid])
 
-        queue.push([child, [left, mid - 1]])
-        queue.push([child, [mid + 1, right]])
+      if values[mid] < parent.data
+        parent.left = child
+      else
+        parent.right = child
       end
+
+      queue.push([child, [left, mid - 1]])
+      queue.push([child, [mid + 1, right]])
     end
 
-    return root
+    root
   end
 
   def printBST(root)
@@ -67,26 +69,17 @@ attr_accessor :root
     pretty_print(node.left, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left
   end
 
-  def find(value)
+  def find(value); end
 
-  end
+  def insert(value); end
 
-  def insert(value)
-
-  end
-
-  def delete(value)
-
-  end
-
+  def delete(value); end
 end
 
-
-
-test = [1,2,7,3,4,8]
+test = [1, 2, 7, 3, 4, 8]
 tree = Tree.new(test)
 tree3 = tree.build_tree(test)
 tree.printBST(tree3)
 print "\n"
 tree.pretty_print(tree3)
-1+1
+1 + 1
