@@ -21,29 +21,37 @@ class Tree
 
   def build_tree(values)
     return nil if values.empty?
-    middle = (values.size) / 2
+
+    middle = values.size / 2
 
     root = Node.new(values[middle])
 
     root.left = build_tree(values[0...middle])
-    root.right = build_tree(values[(middle + 1)..-1])
+    root.right = build_tree(values[(middle + 1)..])
 
-    return root
-
+    root
   end
 
   def find(value); end
 
-  def insert(value); end
+  def insert(value, node = root)
+    if node.nil?
+      Node.new(value)
+    elsif value < node.data
+      node.left = insert(value, node.left)
+    else
+      node.right = insert(value, node.right)
+    end
+  end
 
   def delete(value); end
 
-  def printBST(root)
+  def print_inorder_BST(root)
     return if root.nil?
 
     print "#{root.data} "
-    printBST(root.left)
-    printBST(root.right)
+    print_inorder_BST(root.left)
+    print_inorder_BST(root.right)
   end
 
   def pretty_print(node = @root, prefix = '', is_left = true)
@@ -51,12 +59,14 @@ class Tree
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
     pretty_print(node.left, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left
   end
-
 end
 
-test = [1, 2, 7, 3, 4, 5, 6]
+test = [1, 2]
 tree = Tree.new(test)
-tree3 = tree.build_tree(test)
-tree.printBST(tree3)
+tree.print_inorder_BST(tree.root)
 print "\n"
-tree.pretty_print(tree3)
+tree.pretty_print(tree.root)
+print "\n"
+tree.insert(9)
+tree.pretty_print(tree.root)
+1 + 1
