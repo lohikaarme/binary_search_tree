@@ -56,19 +56,10 @@ class Tree
     elsif node.right.nil?
       return node.left
     else
-      succ_parent = node
-      succ = node.right
-      until succ.left.nil?
-        succ_parent = succ
-        succ = succ.left
-      end
-      if succ_parent != node
-        succ_parent.left = succ.right
-      else
-        succ_parent.right = succ.right
-      end
-      node.data = succ.data
-      node.right = delete(succ.data, node.right)
+      min_value = node.right
+      min_value = min_value.left until min_value.left.nil?
+      node.data = min_value.data
+      node.right = delete(min_value.data, node.right)
     end
     node
   end
@@ -94,7 +85,7 @@ tree.print_inorder_BST(tree.root)
 print "\n"
 tree.pretty_print(tree.root)
 print "\n"
-tree.insert(7)
+# tree.insert(7)
 tree.print_inorder_BST(tree.root)
 print "\n"
 tree.pretty_print(tree.root)
