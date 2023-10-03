@@ -35,16 +35,45 @@ class Tree
   def find(value); end
 
   def insert(value, node = root)
-    if node.nil?
-      Node.new(value)
-    elsif value < node.data
-      node.left = insert(value, node.left)
+    return nil if value == node.data
+
+    if value < node.data
+      node.left.nil? ? node.left = Node.new(value) : insert(value, node.left)
     else
-      node.right = insert(value, node.right)
+      node.right.nil? ? node.right = Node.new(value) : insert(value, node.right)
     end
   end
 
-  def delete(value); end
+  def delete(value, node = root)
+    return nil if node.nil?
+
+    if value < node.data
+      node.left = delete(value, node.left)
+    else
+      node.right = delete(value, node.right)
+    end
+
+    if node.left.nil?
+      node.right
+    elsif node.right.nil?
+      node.left
+    else
+      succ_parent = node
+      succ = node.right
+      until succ.left.nil?
+        succ_parent = succ
+        succ = succ.left
+      end
+      if succ_parent != node
+        succ_parent.left = succ.right
+      else
+        succ_parent.right = succ.right
+      end
+      node.data = succ.data
+      succ = nil
+      node
+    end
+  end
 
   def print_inorder_BST(root)
     return if root.nil?
@@ -61,12 +90,14 @@ class Tree
   end
 end
 
-test = [1, 2]
+test = [1, 2, 4, 5, 3, 9,6]
 tree = Tree.new(test)
 tree.print_inorder_BST(tree.root)
 print "\n"
 tree.pretty_print(tree.root)
 print "\n"
-tree.insert(9)
+tree.insert(7)
+tree.print_inorder_BST(tree.root)
+print "\n"
 tree.pretty_print(tree.root)
 1 + 1
