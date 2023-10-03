@@ -49,14 +49,12 @@ class Tree
 
     if value < node.data
       node.left = delete(value, node.left)
-    else
+    elsif value > node.data
       node.right = delete(value, node.right)
-    end
-
-    if node.left.nil?
-      node.right
+    elsif node.left.nil?
+      return node.right
     elsif node.right.nil?
-      node.left
+      return node.left
     else
       succ_parent = node
       succ = node.right
@@ -70,9 +68,9 @@ class Tree
         succ_parent.right = succ.right
       end
       node.data = succ.data
-      succ = nil
-      node
+      node.right = delete(succ.data, node.right)
     end
+    node
   end
 
   def print_inorder_BST(root)
@@ -90,7 +88,7 @@ class Tree
   end
 end
 
-test = [1, 2, 4, 5, 3, 9,6]
+test = [1, 2, 5]
 tree = Tree.new(test)
 tree.print_inorder_BST(tree.root)
 print "\n"
@@ -99,5 +97,10 @@ print "\n"
 tree.insert(7)
 tree.print_inorder_BST(tree.root)
 print "\n"
+tree.pretty_print(tree.root)
+print "\n"
+tree.delete(5)
+tree.delete(2)
+
 tree.pretty_print(tree.root)
 1 + 1
