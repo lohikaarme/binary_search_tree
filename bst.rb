@@ -73,6 +73,23 @@ class Tree
     node
   end
 
+  def level_order_recursive(node = root, discovered_nodes = [], nodes = [], start: true, &block)
+    return nil if node.nil?
+
+    discovered_nodes << node.left unless node.left.nil?
+    discovered_nodes << node.right unless node.right.nil?
+
+    if block_given?
+      yield(node)
+      level_order_recursive(discovered_nodes.shift, discovered_nodes, nodes, start: false, &block)
+    else
+      nodes << node.data
+      level_order_recursive(discovered_nodes.shift, discovered_nodes, nodes, start: false)
+    end
+
+    p nodes if start && !nodes.empty?
+  end
+
   def print_inorder_BST(root)
     return if root.nil?
 
@@ -88,7 +105,7 @@ class Tree
   end
 end
 
-test = [1, 2, 5,7,9,5,3]
+test = [1, 2, 5, 7, 9, 5, 3]
 tree = Tree.new(test)
 tree.print_inorder_BST(tree.root)
 print "\n"
@@ -103,4 +120,5 @@ tree.delete(5)
 tree.delete(2)
 
 tree.pretty_print(tree.root)
+tree.level_order_recursive
 1 + 1
