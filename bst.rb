@@ -32,7 +32,16 @@ class Tree
     root
   end
 
-  def find(value); end
+  def find(value, node = root)
+    return nil if node.nil?
+    return node if value == node.data
+
+    if value < node.data
+      find(value, node.left)
+    else
+      find(value, node.right)
+    end
+  end
 
   def insert(value, node = root)
     return nil if value == node.data
@@ -79,7 +88,7 @@ class Tree
   end
 end
 
-test = [1, 2, 5]
+test = [1, 2, 5,7,9,5,3]
 tree = Tree.new(test)
 tree.print_inorder_BST(tree.root)
 print "\n"
