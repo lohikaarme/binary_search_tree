@@ -90,6 +90,31 @@ class Tree
     p nodes if start && !nodes.empty?
   end
 
+  def level_order_iterative(node = root, &block)
+    return [] if node.nil?
+
+    nodes = [node]
+    discovered_nodes = [node]
+
+    until discovered_nodes.empty?
+      current_node = discovered_nodes.shift
+      nodes << current_node.left  unless current_node.left.nil?
+      nodes << current_node.right unless current_node.right.nil?
+      discovered_nodes << current_node.left  unless current_node.left.nil?
+      discovered_nodes << current_node.right unless current_node.right.nil?
+    end
+
+    return nil if nodes.nil?
+
+    if block_given?
+      nodes.each(&block)
+    else
+      node_array = []
+      nodes.each {|el| node_array << el.data}
+      p node_array
+    end
+  end
+
   def print_inorder_BST(root)
     return if root.nil?
 
@@ -121,4 +146,5 @@ tree.delete(2)
 
 tree.pretty_print(tree.root)
 tree.level_order_recursive
+tree.level_order_iterative
 1 + 1
