@@ -115,12 +115,33 @@ class Tree
     end
   end
 
-  def print_inorder_BST(root)
+  # left, root, right
+  def inorder(node = root, nodes = [], start: true, &block)
+    return nil if node.nil?
+
+    inorder(node.left, nodes, start: false, &block)
+    if block_given?
+      yield(node)
+    else
+      nodes << node.data
+    end
+    inorder(node.right, nodes, start: false, &block)
+
+    p nodes if start && !nodes.empty?
+  end
+
+  # root, left, right
+  def preorder(node = root, nodes = [], start: true, &block); end
+
+  # left, right, root
+  def postorder(node = root, nodes = [], start: true, &block); end
+
+  def print_preorder_BST(root)
     return if root.nil?
 
     print "#{root.data} "
-    print_inorder_BST(root.left)
-    print_inorder_BST(root.right)
+    print_preorder_BST(root.left)
+    print_preorder_BST(root.right)
   end
 
   def pretty_print(node = @root, prefix = '', is_left = true)
@@ -132,19 +153,15 @@ end
 
 test = [1, 2, 5, 7, 9, 5, 3]
 tree = Tree.new(test)
-tree.print_inorder_BST(tree.root)
+tree.print_preorder_BST(tree.root)
 print "\n"
 tree.pretty_print(tree.root)
 print "\n"
 # tree.insert(7)
-tree.print_inorder_BST(tree.root)
+tree.print_preorder_BST(tree.root)
 print "\n"
 tree.pretty_print(tree.root)
 print "\n"
-tree.delete(5)
-tree.delete(2)
 
 tree.pretty_print(tree.root)
-tree.level_order_recursive
-tree.level_order_iterative
 1 + 1
