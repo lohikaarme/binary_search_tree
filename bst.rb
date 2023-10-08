@@ -1,9 +1,12 @@
 # frozen_string_literal: true
 
+# Node class for creating nodes within a binary tree
 class Node
   include Comparable
   attr_accessor :data, :left, :right
 
+  # Initialize node with given data
+  # Optionally, set left and right child nodes
   def initialize(data = nil, left = nil, right = nil)
     @data = data
     @left = left
@@ -11,6 +14,8 @@ class Node
   end
 end
 
+# Tree class for creating binary search tre
+# Methods to build tree, find/insert/delete a node, traverse tree in different orders
 class Tree
   attr_accessor :root, :data
 
@@ -19,6 +24,7 @@ class Tree
     @root = build_tree(data)
   end
 
+  # Method to build binary search tree from given values
   def build_tree(values)
     return nil if values.empty?
 
@@ -32,6 +38,10 @@ class Tree
     root
   end
 
+  # Method to find a node with the given value in the tree
+  # @param value [Object] The value to search for
+  # @param node [Node] The current node in the tree
+  # @return [Node, nil] The node with the given value if it exists, or nil if it doesn't
   def find(value, node = root)
     return nil if node.nil?
     return node if value == node.data
@@ -43,6 +53,10 @@ class Tree
     end
   end
 
+  # Method to insert a new value into the tree
+  # @param value [Object] The value to insert
+  # @param node [Node] The current node in the tree
+  # @return [nil] nil if root doesn't exist
   def insert(value, node = root)
     return nil if value == node.data
 
@@ -53,6 +67,10 @@ class Tree
     end
   end
 
+  # Method to delete a node with the given value from the tree
+  # @param value [Object] The value to delete
+  # @param node [Node] The current node in the tree
+  # @return [Node, nil] The deleted node, or nil if root doesn't exist
   def delete(value, node = root)
     return nil if node.nil?
 
@@ -73,6 +91,9 @@ class Tree
     node
   end
 
+  # Method to perform level order of the tree recursively
+  # Accepts a block which is executed for each node
+  # Returns array of node data if no block is present
   def level_order_recursive(node = root, discovered_nodes = [], nodes = [], start: true, &block)
     return nil if node.nil?
 
@@ -90,6 +111,9 @@ class Tree
     p nodes if start && !nodes.empty?
   end
 
+  # Method to perform level order of the tree iteratively
+  # Accepts a block which is executed for each node
+  # Returns array of node data if no block is present
   def level_order_iterative(node = root, &block)
     return [] if node.nil?
 
@@ -115,7 +139,9 @@ class Tree
     end
   end
 
-  # left, root, right
+  # Method to perform inorder traversal of the tree
+  # Accepts a block which is executed for each node
+  # Returns array of node data if no block is present
   def inorder(node = root, nodes = [], start: true, &block)
     return nil if node.nil?
 
@@ -130,7 +156,9 @@ class Tree
     p nodes if start && !nodes.empty?
   end
 
-  # root, left, right
+  # Method to perform preorder traversal of the tree
+  # Accepts a block which is executed for each node
+  # Returns array of node data if no block is present
   def preorder(node = root, nodes = [], start: true, &block)
     return nil if node.nil?
 
@@ -145,7 +173,9 @@ class Tree
     p nodes if start && !nodes.empty?
   end
 
-  # left, right, root
+  # Method to perform postorder traversal of the tree
+  # Accepts a block which is executed for each node
+  # Returns array of node data if no block is present
   def postorder(node = root, nodes = [], start: true, &block)
     return nil if node.nil?
 
@@ -160,6 +190,7 @@ class Tree
     p nodes if start && !nodes.empty?
   end
 
+  # prints tree in preorder traversal
   def print_preorder_BST(root)
     return if root.nil?
 
@@ -168,6 +199,7 @@ class Tree
     print_preorder_BST(root.right)
   end
 
+  # Method to print tree in visual format
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
