@@ -110,7 +110,7 @@ class Tree
       nodes.each(&block)
     else
       node_array = []
-      nodes.each {|el| node_array << el.data}
+      nodes.each { |el| node_array << el.data }
       p node_array
     end
   end
@@ -131,10 +131,34 @@ class Tree
   end
 
   # root, left, right
-  def preorder(node = root, nodes = [], start: true, &block); end
+  def preorder(node = root, nodes = [], start: true, &block)
+    return nil if node.nil?
+
+    if block_given?
+      yield(node)
+    else
+      nodes << node.data
+    end
+    preorder(node.left, nodes, start: false, &block)
+    preorder(node.right, nodes, start: false, &block)
+
+    p nodes if start && !nodes.empty?
+  end
 
   # left, right, root
-  def postorder(node = root, nodes = [], start: true, &block); end
+  def postorder(node = root, nodes = [], start: true, &block)
+    return nil if node.nil?
+
+    postorder(node.left, nodes, start: false, &block)
+    postorder(node.right, nodes, start: false, &block)
+    if block_given?
+      yield(node)
+    else
+      nodes << node.data
+    end
+
+    p nodes if start && !nodes.empty?
+  end
 
   def print_preorder_BST(root)
     return if root.nil?
