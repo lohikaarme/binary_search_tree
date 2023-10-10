@@ -60,7 +60,7 @@ class Tree
   def insert(value, node = root)
     return nil if value == node.data
 
-    if value < node.data
+    if value < node.datax
       node.left.nil? ? node.left = Node.new(value) : insert(value, node.left)
     else
       node.right.nil? ? node.right = Node.new(value) : insert(value, node.right)
@@ -190,6 +190,19 @@ class Tree
     p nodes if start && !nodes.empty?
   end
 
+  # Method to determine height of node from longest path to a leaf in tree
+  # @param node [Node, Comparable] The node (or value of the node)in the tree to measure height of
+  # @return [Integer] Height of node, 0 if empty or node doesn't exist
+  def height(node = root, start: true)
+    node = find(node) if start && node.is_a?(Comparable)
+    return 0 if node.nil?
+
+    left_height = height(node.left, start: false)
+    right_height = height(node.right, start: false)
+
+    [left_height, right_height].max + 1
+  end
+
   # prints tree in preorder traversal
   def print_preorder_BST(root)
     return if root.nil?
@@ -220,4 +233,5 @@ tree.pretty_print(tree.root)
 print "\n"
 
 tree.pretty_print(tree.root)
+p tree.height(2)
 1 + 1
