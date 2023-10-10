@@ -191,7 +191,7 @@ class Tree
   end
 
   # Method to determine height of node from longest path to a leaf in tree
-  # @param node [Node, Comparable] The node (or value of the node)in the tree to measure height of
+  # @param node [Node, Comparable] The node (or value of the node) in the tree to measure height of
   # @return [Integer] Height of node, 0 if empty or node doesn't exist
   def height(node = root, start: true)
     node = find(node) if start && node.is_a?(Comparable)
@@ -201,6 +201,22 @@ class Tree
     right_height = height(node.right, start: false)
 
     [left_height, right_height].max + 1
+  end
+
+  # Method to find the depth of a node with the given value in the tree
+  # @param value [Object] The value to search for
+  # @param node [Node] The current node in the tree
+  # @return [Integer, nil] Depth of node, or nil if node doesn't exist
+  def depth(value, node = root)
+    return nil if node.nil?
+
+    if value < node.data
+      depth(value, node.left) + 1
+    elsif value > node.data
+      depth(value, node.right) + 1
+    else
+      1
+    end
   end
 
   # prints tree in preorder traversal
@@ -234,4 +250,5 @@ print "\n"
 
 tree.pretty_print(tree.root)
 p tree.height(2)
+p tree.depth(2)
 1 + 1
