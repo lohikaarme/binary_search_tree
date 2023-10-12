@@ -60,7 +60,7 @@ class Tree
   def insert(value, node = root)
     return nil if value == node.data
 
-    if value < node.datax
+    if value < node.data
       node.left.nil? ? node.left = Node.new(value) : insert(value, node.left)
     else
       node.right.nil? ? node.right = Node.new(value) : insert(value, node.right)
@@ -208,14 +208,14 @@ class Tree
   # @param node [Node] The current node in the tree
   # @return [Integer, nil] Depth of node, or nil if node doesn't exist
   def depth(value, node = root)
-    return nil if node.nil?
+    return nil if node.nil? or find(value).nil?
 
     if value < node.data
       depth(value, node.left) + 1
     elsif value > node.data
       depth(value, node.right) + 1
     else
-      1
+      0
     end
   end
 
@@ -256,25 +256,26 @@ class Tree
   end
 end
 
-test = [1, 2, 5, 7, 9, 5, 3]
-tree = Tree.new(test)
-tree.print_preorder_BST(tree.root)
-print "\n"
-tree.pretty_print(tree.root)
-print "\n"
-# tree.insert(7)
-tree.print_preorder_BST(tree.root)
-print "\n"
-tree.pretty_print(tree.root)
-print "\n"
-
-tree.pretty_print(tree.root)
-p tree.height(2)
-p tree.depth(2)
-p tree.balanced?
-p tree.rebalance
-p tree.delete(7)
-p tree.delete(9)
-p tree.rebalance
-tree.pretty_print(tree.root)
+TreeTest = Tree.new((Array.new(15) { rand(1..100) }))
+TreeTest.balanced?
+TreeTest.pretty_print
+TreeTest.level_order_recursive
+TreeTest.preorder
+TreeTest.postorder
+TreeTest.inorder
+TreeTest.insert(rand(101..10000))
+TreeTest.insert(rand(101..10000))
+TreeTest.insert(rand(101..10000))
+TreeTest.insert(rand(101..10000))
+TreeTest.insert(rand(101..10000))
+TreeTest.insert(rand(101..10000))
+TreeTest.insert(rand(101..10000))
+TreeTest.pretty_print
+TreeTest.balanced?
+TreeTest.rebalance
+TreeTest.balanced?
+TreeTest.preorder
+TreeTest.postorder
+TreeTest.inorder
+TreeTest.pretty_print
 1 + 1
