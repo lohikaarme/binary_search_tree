@@ -219,6 +219,26 @@ class Tree
     end
   end
 
+  # Method to determine if tree is balanced
+  # @return [Boolean] True if a balanced tree, False if not
+  def balanced?(node = root)
+    left = 0
+    right = 0
+    left = height(node.left.data) unless node.left.nil?
+    right = height(node.right.data) unless node.right.nil?
+    (left - right).abs <= 1
+  end
+
+  # Method to rebalance a tree if it is unbalanced
+  # @returns [Tree, nil] rebalanced tree, or nil if no tree exists
+  def rebalance
+    return nil if root.nil?
+
+    self.data = inorder
+    self.root = build_tree(data)
+    self
+  end
+
   # prints tree in preorder traversal
   def print_preorder_BST(root)
     return if root.nil?
@@ -251,4 +271,10 @@ print "\n"
 tree.pretty_print(tree.root)
 p tree.height(2)
 p tree.depth(2)
+p tree.balanced?
+p tree.rebalance
+p tree.delete(7)
+p tree.delete(9)
+p tree.rebalance
+tree.pretty_print(tree.root)
 1 + 1
